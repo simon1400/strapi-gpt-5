@@ -64,7 +64,7 @@
   },
   "strapi": {
     "kind": "plugin",
-    "name": "gpt",
+    "name": "strapi-gpt-5",
     "displayName": "GPT-5 strapi",
     "description": "Plugin Chat GPT-5 for strapi v5"
   },

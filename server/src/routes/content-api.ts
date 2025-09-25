@@ -4,7 +4,7 @@ export default [
     path: "/ask",
     handler: "ask.index",
     config: {
-      auth: false, // можешь включить true, если только для админов
+      auth: false,
     },
   },
 ];

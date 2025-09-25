@@ -27,7 +27,7 @@ const HomePage = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/gpt/ask", {
+      const res = await fetch("/api/strapi-gpt-5/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -46,12 +46,12 @@ const HomePage = () => {
 
       setMessages([
         ...newMessages,
-        { role: "assistant", content: data.reply || "Нет ответа" },
+        { role: "assistant", content: data.reply || "No response" },
       ]);
     } catch (err) {
       setMessages([
         ...newMessages,
-        { role: "assistant", content: "Ошибка при запросе" },
+        { role: "assistant", content: "Error during request" },
       ]);
     } finally {
       setLoading(false);
@@ -61,14 +61,14 @@ const HomePage = () => {
   return (
     <div style={{ padding: 32, maxWidth: 960 }}>
       <div style={{ marginBottom: 16 }}>
-        <Typography variant="alpha">AI Chat (GPT)</Typography>
+        <Typography variant="alpha">GPT-5 for Strapi</Typography>
       </div>
 
-      <div style={{ maxWidth: 300 }}>
+      <div style={{ maxWidth: 200 }}>
         <SingleSelect value={model}  onChange={(val: string | number) => setModel(val as string)}>
-          <SingleSelectOption value="gpt-5">GPT-5 (сложные задачи)</SingleSelectOption>
-          <SingleSelectOption value="gpt-5-mini">GPT-5 mini (баланс - для контента)</SingleSelectOption>
-          <SingleSelectOption value="gpt-5-nano">GPT-5 nano (отзывы, перевод, ответы на смс)</SingleSelectOption>
+          <SingleSelectOption value="gpt-5">GPT-5</SingleSelectOption>
+          <SingleSelectOption value="gpt-5-mini">GPT-5 mini</SingleSelectOption>
+          <SingleSelectOption value="gpt-5-nano">GPT-5 nano</SingleSelectOption>
         </SingleSelect>
       </div>
 
@@ -102,23 +102,33 @@ const HomePage = () => {
                   background: m.role === "user" ? "#4a90e2" : "#2d2d2d",
                   color: "#fff",
                   maxWidth: '85%',
-                  whiteSpace: "pre-wrap",   // ✅ сохраняем переносы строк
+                  whiteSpace: "pre-wrap",
                 }}
             >
               {m.content}
             </div>
           </div>
         ))}
+        {loading && <div
+          style={{
+            display: "inline-block",
+            fontSize: 16,
+            padding: "8px 12px",
+            color: "#666363",
+          }}
+        >
+          {'Thinks...'}
+        </div>}
       </div>
 
       <Textarea
-        placeholder="Введите сообщение..."
+        placeholder="Enter answer..."
         value={input}
         onChange={(e: any) => setInput(e.target.value)}
       />
 
-      <Button onClick={sendMessage} loading={loading} style={{ marginTop: 8 }}>
-        Отправить
+      <Button onClick={sendMessage} loading={loading} style={{ marginTop: 12 }}>
+        Send
       </Button>
     </div>
   );
